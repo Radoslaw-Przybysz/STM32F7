@@ -1,2 +1,2 @@
 
-RAM_MS - >RAM disk in the internal memory 256kB, compiler MDK-Lite Edition - Keil
+RAM_MS - > RAM disk as USB MASS STORAGE DEVICE CLASS [256kB], compiler MDK-Lite Edition - Keil
