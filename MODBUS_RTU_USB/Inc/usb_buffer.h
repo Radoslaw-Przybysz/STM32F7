@@ -25,8 +25,7 @@
     int8_t pos_receive; //!< pos_receive is the current position in buffer to save incoming data.
 	  int8_t pos_process; //!< pos_process is the index of data in buffer which has been processed.
 												//   if pos_receive=pos_process, it means all data were processed, waiting for new data coming
-	
-    uint8_t IsDataReceived; 																//!< anynumber > 0 means data were received. 0 means no data is available
+
     uint8_t RxBuffers[_MaxRxBuffersCount][_RxBufferSize];		//!< it could save <MaxCommandsInBuffer> number of commands
     uint8_t RxBuffersLength[_MaxRxBuffersCount]; 						//!< save the length of each package
 	

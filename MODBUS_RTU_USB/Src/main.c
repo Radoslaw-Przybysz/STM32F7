@@ -106,10 +106,6 @@ int8_t readFun( uint8_t *buff, uint16_t *count )
     if(_usbBuffers.pos_process>=_MaxRxBuffersCount) //reach the last buffer, need to rewind to 0
         _usbBuffers.pos_process=0;
 
-	//check if all data were processed
-    if(_usbBuffers.pos_process==_usbBuffers.pos_receive)
-        _usbBuffers.IsDataReceived=0; 
-
     HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_1 );
 
     return 0;
@@ -131,7 +127,7 @@ int8_t writeFun( uint8_t *i, int16_t j )
 int8_t frameFun( void  )
 {
 
-    if( _usbBuffers.IsDataReceived )
+    if( _usbBuffers.pos_process !=_usbBuffers.pos_receive)
         return 1;
 
     return 0;
@@ -170,7 +166,6 @@ int main(void)
 //! initialize data
     _usbBuffers.pos_process = 0;
     _usbBuffers.pos_receive = 0;
-    _usbBuffers.IsDataReceived = 0;
 
     regs[0].registersAddress = measures;
     regs[0].registersBase = 8192;

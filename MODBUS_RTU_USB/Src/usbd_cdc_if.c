@@ -269,18 +269,20 @@ static int8_t CDC_Control_FS  (uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_FS (uint8_t* Buf, uint32_t *Len)
 {
     /* USER CODE BEGIN 6 */
-    _usbBuffers.IsDataReceived = 1; 																// indicates data were received
-    _usbBuffers.RxBuffersLength[ _usbBuffers.pos_receive ] = *Len; 	// only set the length, data was directly saved to buffer
-    _usbBuffers.pos_receive++;		// move to next position to receive data
+		uint32_t i, j = *Len;
+	  uint8_t *b = _usbBuffers.RxBuffers[ _usbBuffers.pos_receive ];
+	
+		for( i=0; i<j; i++)
+			  b[i] = Buf[i];
+	
+    _usbBuffers.RxBuffersLength[ _usbBuffers.pos_receive ] = j;
+	
+		// move to next position to receive data
+    _usbBuffers.pos_receive++;		
 
     if(_usbBuffers.pos_receive>=_MaxRxBuffersCount) //reach the last buffer, need to rewind to 0
-    {
         _usbBuffers.pos_receive = 0;
-    }
-
-    //prepare to receive the next data
-    //Set the buffer to receive incoming data
-    USBD_CDC_SetRxBuffer( &hUsbDeviceFS, _usbBuffers.RxBuffers[_usbBuffers.pos_receive]);
+		
     // Tell that you are ready to receive the next packet, otherwise you wouldn't be able to receive next data
     USBD_CDC_ReceivePacket(&hUsbDeviceFS);
 
